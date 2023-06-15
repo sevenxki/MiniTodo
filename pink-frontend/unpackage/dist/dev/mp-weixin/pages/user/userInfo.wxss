@@ -1,0 +1,18 @@
+
+page {
+	background-color: #f5f5f5;
+}
+
+.avatar.data-v-6bdb5298 {
+  margin: 70rpx auto;
+}
+.avatar.data-v-6bdb5298 .u-avatar {
+  margin: 0rpx auto;
+}
+.detail.data-v-6bdb5298 {
+  background-color: #fff;
+  border-radius: 20rpx;
+  margin: 20rpx 0;
+  overflow: hidden;
+}
+

@@ -1,0 +1,60 @@
+
+page {
+	background-color: #f5f5f5;
+}
+
+.head.data-v-80842834 {
+  padding: 20rpx;
+  background-color: #fff;
+  margin-bottom: 20rpx;
+}
+.head .userInfo.data-v-80842834 {
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+  padding-right: 5rpx;
+}
+.head .userInfo .detail.data-v-80842834 {
+  flex: 6;
+  display: flex;
+  flex-direction: column;
+  margin-left: 20rpx;
+}
+.head .userInfo .sub-txt1.data-v-80842834 {
+  font-size: 38rpx;
+  font-weight: 700;
+  color: #000000;
+  display: block;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+.head .userInfo .sub-txt2.data-v-80842834 {
+  font-size: 24rpx;
+  color: #6a6a6a;
+  display: block;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+.head .userInfo .right-txt.data-v-80842834 {
+  flex: 1;
+  font-size: 30rpx;
+  color: #aaaa7f;
+}
+.block-wrap.data-v-80842834 {
+  background-color: #fff;
+  border-radius: 20rpx;
+  margin: 20rpx 0;
+  overflow: hidden;
+}
+.block-wrap .icon.data-v-80842834 {
+  margin-right: 10rpx;
+}
+.exit.data-v-80842834 {
+  margin: 20rpx;
+  overflow: hidden;
+}
+

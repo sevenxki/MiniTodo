@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.scau.misp.todo.dao.ListDao">
+
+    <resultMap type="edu.scau.misp.todo.entity.ToDoList" id="ListMap">
+        <result property="listId" column="list_id" jdbcType="INTEGER"/>
+        <result property="listTitle" column="list_title" jdbcType="VARCHAR"/>
+        <result property="listContent" column="list_content" jdbcType="VARCHAR"/>
+        <result property="listStatus" column="list_status" jdbcType="INTEGER"/>
+        <result property="openId" column="open_id" jdbcType="VARCHAR"/>
+        <result property="listTime" column="list_time" jdbcType="TIMESTAMP"/>
+        <result property="listPriority" column="list_priority" jdbcType="INTEGER"/>
+        <result property="listNo" column="list_no" jdbcType="VARCHAR"/>
+        <association property="wechatUser" javaType="edu.scau.misp.todo.dao.WechatUserDao"
+                     column="open_id"
+                     select="edu.scau.misp.todo.dao.WechatUserDao.getByOpenId">
+        </association>
+    </resultMap>
+
+
+    <!--查询已完成-->
+    <select id="queryAllFinishByTime" resultMap="ListMap">
+        select
+        l.list_id, l.list_title, l.list_content, l.list_status, l.open_id, l.list_time, l.list_priority,l.list_no,
+        w.id, w.nickname, w.avatar_url, w.gender, w.country, w.province, w.city, w.mobile, w.open_id, w.union_id, w.created_at, w.updated_at, w.deleted_at, w.skey
+        from list as l
+        left join wechat_user as w on l.open_id = w.open_id
+        <where>
+            l.list_status = 1
+            and l.open_id = #{arg2}
+            and l.list_time BETWEEN #{arg0} AND #{arg1}
+        </where>
+    </select>
+
+    <!--查询未完成-->
+    <select id="queryAllToDoByTime" resultMap="ListMap">
+        select
+        l.list_id, l.list_title, l.list_content, l.list_status, l.open_id, l.list_time, l.list_priority,l.list_no,
+        w.id, w.nickname, w.avatar_url, w.gender, w.country, w.province, w.city, w.mobile, w.open_id, w.union_id, w.created_at, w.updated_at, w.deleted_at, w.skey
+        from list as l
+        left join wechat_user as w on l.open_id = w.open_id
+        <where>
+            l.list_status = 0
+            and l.open_id = #{arg2}
+            and l.list_time BETWEEN #{arg0} AND #{arg1}
+        </where>
+    </select>
+
+    <!--查询已完成-->
+    <select id="queryFinishByTitle" resultMap="ListMap">
+        select
+        l.list_id, l.list_title, l.list_content, l.list_status, l.open_id, l.list_time, l.list_priority,l.list_no,
+        w.id, w.nickname, w.avatar_url, w.gender, w.country, w.province, w.city, w.mobile, w.open_id, w.union_id, w.created_at, w.updated_at, w.deleted_at, w.skey
+        from list as l
+        left join wechat_user as w on l.open_id = w.open_id
+        <where>
+            l.list_status = 1 and l.open_id = #{openId} and l.list_title like concat('%', #{listTitle}, '%')
+        </where>
+    </select>
+
+    <!--查询未完成-->
+    <select id="queryToDoByTitle" resultMap="ListMap">
+        select
+        l.list_id, l.list_title, l.list_content, l.list_status, l.open_id, l.list_time, l.list_priority,l.list_no,
+        w.id, w.nickname, w.avatar_url, w.gender, w.country, w.province, w.city, w.mobile, w.open_id, w.union_id, w.created_at, w.updated_at, w.deleted_at, w.skey
+        from list as l
+        left join wechat_user as w on l.open_id = w.open_id
+        <where>
+            l.list_status = 0
+            and l.open_id = #{openId}
+            and l.list_title like concat('%', #{listTitle}, '%')
+        </where>
+    </select>
+
+    <!--查询已完成-->
+    <select id="queryFinish" resultMap="ListMap">
+        select
+            l.list_id, l.list_title, l.list_content, l.list_status, l.open_id, l.list_time, l.list_priority,l.list_no,
+            w.id, w.nickname, w.avatar_url, w.gender, w.country, w.province, w.city, w.mobile, w.open_id, w.union_id, w.created_at, w.updated_at, w.deleted_at, w.skey
+        from list as l
+                 left join wechat_user as w on l.open_id = w.open_id
+        where l.list_status = 1 and l.open_id = #{openId}
+    </select>
+
+    <!--查询未完成-->
+    <select id="queryToDo" resultMap="ListMap">
+        select
+        l.list_id, l.list_title, l.list_content, l.list_status, l.open_id, l.list_time, l.list_priority, l.list_no,
+        w.id, w.nickname, w.avatar_url, w.gender, w.country, w.province, w.city, w.mobile, w.open_id, w.union_id, w.created_at, w.updated_at, w.deleted_at, w.skey
+        from list as l
+        left join wechat_user as w on l.open_id = w.open_id
+        <where>
+            l.list_status = 0 and l.open_id = #{openId}
+        </where>
+    </select>
+
+    <!--查询未完成的1等级-->
+    <select id="queryByOne" resultMap="ListMap">
+        select
+        l.list_id, l.list_title, l.list_content, l.list_status, l.open_id, l.list_time, l.list_priority, l.list_no,
+        w.id, w.nickname, w.avatar_url, w.gender, w.country, w.province, w.city, w.mobile, w.open_id, w.union_id, w.created_at, w.updated_at, w.deleted_at, w.skey
+        from list as l
+        left join wechat_user as w on l.open_id = w.open_id
+        <where>
+            l.list_status = 0 and l.open_id = #{openId}
+            and l.list_priority = 1
+        </where>
+    </select>
+
+    <!--查询未完成的2等级-->
+    <select id="queryByTwo" resultMap="ListMap">
+        select
+        l.list_id, l.list_title, l.list_content, l.list_status, l.open_id, l.list_time, l.list_priority, l.list_no,
+        w.id, w.nickname, w.avatar_url, w.gender, w.country, w.province, w.city, w.mobile, w.open_id, w.union_id, w.created_at, w.updated_at, w.deleted_at, w.skey
+        from list as l
+        left join wechat_user as w on l.open_id = w.open_id
+        <where>
+            l.list_status = 0 and l.open_id = #{openId}
+            and l.list_priority = 2
+        </where>
+    </select>
+
+    <!--查询未完成的3等级-->
+    <select id="queryByThree" resultMap="ListMap">
+        select
+        l.list_id, l.list_title, l.list_content, l.list_status, l.open_id, l.list_time, l.list_priority, l.list_no,
+        w.id, w.nickname, w.avatar_url, w.gender, w.country, w.province, w.city, w.mobile, w.open_id, w.union_id, w.created_at, w.updated_at, w.deleted_at, w.skey
+        from list as l
+        left join wechat_user as w on l.open_id = w.open_id
+        <where>
+            l.list_status = 0 and l.open_id = #{openId}
+            and l.list_priority = 3
+        </where>
+    </select>
+
+    <!--查询未完成的4等级-->
+    <select id="queryByFour" resultMap="ListMap">
+        select
+        l.list_id, l.list_title, l.list_content, l.list_status, l.open_id, l.list_time, l.list_priority, l.list_no,
+        w.id, w.nickname, w.avatar_url, w.gender, w.country, w.province, w.city, w.mobile, w.open_id, w.union_id, w.created_at, w.updated_at, w.deleted_at, w.skey
+        from list as l
+        left join wechat_user as w on l.open_id = w.open_id
+        <where>
+            l.list_status = 0 and l.open_id = #{openId}
+            and l.list_priority = 4
+        </where>
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ListMap">
+        select
+            l.list_id, l.list_title, l.list_content, l.list_status, l.open_id, l.list_time, l.list_priority, l.list_no,
+            w.id, w.nickname, w.avatar_url, w.gender, w.country, w.province, w.city, w.mobile, w.open_id, w.union_id, w.created_at, w.updated_at, w.deleted_at, w.skey
+        from list as l
+                 left join wechat_user as w on l.open_id = w.open_id
+        where list_id = #{listId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAll" resultMap="ListMap">
+        select
+        l.list_id, l.list_title, l.list_content, l.list_status, l.open_id, l.list_time, l.list_priority, l.list_no,
+        w.id, w.nickname, w.avatar_url, w.gender, w.country, w.province, w.city, w.mobile, w.open_id, w.union_id, w.created_at, w.updated_at, w.deleted_at, w.skey
+        from list as l
+        left join wechat_user as w on l.open_id = w.open_id
+        <where>
+            <if test="listId != null">
+                and l.list_id = #{listId}
+            </if>
+            <if test="listTitle != null and listTitle != ''">
+                and l.list_title = #{listTitle}
+            </if>
+            <if test="listContent != null and listContent != ''">
+                and l.list_content = #{listContent}
+            </if>
+            <if test="listStatus != null">
+                and l.list_status = #{listStatus}
+            </if>
+            <if test="openId != null">
+                and l.open_id = #{openId}
+            </if>
+            <if test="listTime != null">
+                and l.list_time = #{listTime}
+            </if>
+            <if test="listPriority != null">
+                and l.list_priority = #{listPriority}
+            </if>
+            <if test="listNo != null and listNo != ''">
+                and l.list_no = #{listNo}
+            </if>
+        </where>
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from list
+        <where>
+            <if test="listId != null">
+                and list_id = #{listId}
+            </if>
+            <if test="listTitle != null and listTitle != ''">
+                and list_title = #{listTitle}
+            </if>
+            <if test="listContent != null and listContent != ''">
+                and list_content = #{listContent}
+            </if>
+            <if test="listStatus != null">
+                and list_status = #{listStatus}
+            </if>
+            <if test="openId != null and openId != ''">
+                and open_id = #{openId}
+            </if>
+            <if test="listTime != null">
+                and list_time = #{listTime}
+            </if>
+            <if test="listPriority != null">
+                and list_priority = #{listPriority}
+            </if>
+            <if test="listNo != null and listNo != ''">
+                and list_no = #{listNo}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="listId" useGeneratedKeys="true">
+        insert into list(list_title, list_content, list_status, open_id, list_time, list_priority, list_no)
+        values (#{listTitle}, #{listContent}, #{listStatus}, #{openId}, #{listTime}, #{listPriority}, #{listNo})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="listId" useGeneratedKeys="true">
+        insert into list(list_title, list_content, list_status, open_id, list_time, list_priority, list_no)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.listTitle}, #{entity.listContent}, #{entity.listStatus}, #{entity.openId}, #{entity.listTime}, #{entity.listPriority}, #{entity.listNo})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="listId" useGeneratedKeys="true">
+        insert into list(list_title, list_content, list_status, open_id, list_time, list_priority, list_no)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.listTitle}, #{entity.listContent}, #{entity.listStatus}, #{entity.openId}, #{entity.listTime}, #{entity.listPriority}, #{entity.listNo})
+        </foreach>
+        on duplicate key update
+        list_title = values(list_title),
+        list_content = values(list_content),
+        list_status = values(list_status),
+        open_id = values(open_id),
+        list_time = values(list_time),
+        list_priority = values(list_priority),
+        list_no = values(list_no)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update list
+        <set>
+            <if test="listTitle != null and listTitle != ''">
+                list_title = #{listTitle},
+            </if>
+            <if test="listContent != null and listContent != ''">
+                list_content = #{listContent},
+            </if>
+            <if test="listStatus != null">
+                list_status = #{listStatus},
+            </if>
+            <if test="openId != null and openId != ''">
+                open_id = #{openId},
+            </if>
+            <if test="listTime != null">
+                list_time = #{listTime},
+            </if>
+            <if test="listPriority != null">
+                list_priority = #{listPriority},
+            </if>
+            <if test="listNo != null and listNo != ''">
+                list_no = #{listNo},
+            </if>
+        </set>
+        where list_id = #{listId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from list where list_id = #{listId}
+    </delete>
+
+</mapper>
+

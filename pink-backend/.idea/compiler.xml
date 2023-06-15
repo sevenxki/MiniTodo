@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="pink-web" />
+        <module name="pink-todo" />
+        <module name="pink-core" />
+        <module name="pink-sys" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="pink-core" options="-bootclasspath &quot;C:/Program Files (x86)/Java/jdk1.8.0_60/jre\lib\rt.jar;C:/Program Files (x86)/Java/jdk1.8.0_60/jre\lib\jce.jar&quot; -Xlint:deprecation" />
+      <module name="pink-sys" options="-bootclasspath &quot;C:/Program Files (x86)/Java/jdk1.8.0_60/jre\lib\rt.jar;C:/Program Files (x86)/Java/jdk1.8.0_60/jre\lib\jce.jar&quot; -Xlint:deprecation" />
+      <module name="pink-todo" options="-bootclasspath &quot;C:/Program Files (x86)/Java/jdk1.8.0_60/jre\lib\rt.jar;C:/Program Files (x86)/Java/jdk1.8.0_60/jre\lib\jce.jar&quot; -Xlint:deprecation" />
+      <module name="pink-web" options="-bootclasspath &quot;C:/Program Files (x86)/Java/jdk1.8.0_60/jre\lib\rt.jar;C:/Program Files (x86)/Java/jdk1.8.0_60/jre\lib\jce.jar&quot; -Xlint:deprecation" />
+    </option>
+  </component>
+</project>

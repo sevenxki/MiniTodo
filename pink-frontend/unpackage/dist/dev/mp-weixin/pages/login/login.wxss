@@ -1,0 +1,24 @@
+.login.data-v-b237504c {
+  display: flex;
+  flex-direction: column;
+  padding: 100rpx;
+}
+.login .logo.data-v-b237504c {
+  width: 230rpx;
+  height: 230rpx;
+  margin: 50rpx auto;
+}
+.login .txt1.data-v-b237504c {
+  margin-bottom: 10rpx;
+}
+.login .txt2.data-v-b237504c {
+  color: #999999;
+  margin-bottom: 50rpx;
+}
+.login .txt3.data-v-b237504c {
+  color: #8c8c8c;
+  margin-top: 30rpx;
+  text-align: center;
+  font-size: 28rpx;
+}
+

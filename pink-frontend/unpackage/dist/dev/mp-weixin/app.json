@@ -1,0 +1,53 @@
+{
+    "pages": [
+        "pages/list/list",
+        "pages/calendar/calendar",
+        "pages/memory/memory",
+        "pages/login/login",
+        "pages/user/user",
+        "pages/user/userInfo",
+        "pages/user/userEdit"
+    ],
+    "subPackages": [],
+    "window": {
+        "navigationBarTextStyle": "black",
+        "navigationBarTitleText": "uni-app",
+        "navigationBarBackgroundColor": "#F8F8F8",
+        "backgroundColor": "#F8F8F8"
+    },
+    "tabBar": {
+        "color": "#7A7E83",
+        "selectedColor": "#2c2c2c",
+        "borderStyle": "white",
+        "backgroundColor": "#ffffff",
+        "list": [
+            {
+                "pagePath": "pages/list/list",
+                "iconPath": "static/tabbar/list.png",
+                "selectedIconPath": "static/tabbar/list1.png",
+                "text": "待办清单"
+            },
+            {
+                "pagePath": "pages/calendar/calendar",
+                "iconPath": "static/tabbar/calendar.png",
+                "selectedIconPath": "static/tabbar/calendar1.png",
+                "text": "日历"
+            },
+            {
+                "pagePath": "pages/memory/memory",
+                "iconPath": "static/tabbar/memory.png",
+                "selectedIconPath": "static/tabbar/memory1.png",
+                "text": "纪念日"
+            },
+            {
+                "pagePath": "pages/user/user",
+                "iconPath": "static/tabbar/user.png",
+                "selectedIconPath": "static/tabbar/user1.png",
+                "text": "个人中心"
+            }
+        ]
+    },
+    "permission": {},
+    "usingComponents": {},
+    "sitemapLocation": "sitemap.json"
+}

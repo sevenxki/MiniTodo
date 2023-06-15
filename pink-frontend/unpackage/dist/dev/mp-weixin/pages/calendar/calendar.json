@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "日历",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "zui-calendar": "/uni_modules/zui-calendar/components/zui-calendar/zui-calendar",
+    "u-empty": "/node-modules/uview-ui/components/u-empty/u-empty"
+  }
+}

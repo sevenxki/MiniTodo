@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.scau.misp.todo.dao.MemorialDayUserDao">
+
+    <resultMap type="edu.scau.misp.todo.entity.MemorialDayUser" id="MemorialDayUserMap">
+        <result property="memorialDayUserId" column="memorial_day_user_id" jdbcType="INTEGER"/>
+        <result property="openId" column="open_id" jdbcType="VARCHAR"/>
+        <result property="memorialDayId" column="memorial_day_id" jdbcType="INTEGER"/>
+        <association property="wechatUser" javaType="edu.scau.misp.todo.dao.WechatUserDao"
+                     column="open_id"
+                     select="edu.scau.misp.todo.dao.WechatUserDao.getByOpenId">
+        </association>
+        <association property="memorialDay" javaType="edu.scau.misp.todo.dao.MemorialDayDao"
+                     column="memorial_day_id"
+                     select="edu.scau.misp.todo.dao.MemorialDayDao.queryById">
+        </association>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="MemorialDayUserMap">
+        select
+            m.memorial_day_user_id, m.open_id, m.memorial_day_id,
+            w.id, w.nickname, w.avatar_url, w.gender, w.country, w.province, w.city, w.mobile, w.open_id, w.union_id, w.created_at, w.updated_at, w.deleted_at, w.skey,
+            d.memorial_day_id, d.time, d.memorial_day_name, d.condition_id, d.created_time, d.updated_time,d.remark
+        from memorial_day_user as m
+                 left join wechat_user as w on m.open_id=w.open_id
+                 left join memorial_day as d on m.memorial_day_id=d.memorial_day_id
+        where m.memorial_day_user_id = #{memorialDayUserId}
+    </select>
+
+    <!--查询单个-->
+    <select id="queryByMemorialDayId" resultMap="MemorialDayUserMap">
+        select
+            m.memorial_day_user_id, m.open_id, m.memorial_day_id,
+            w.id, w.nickname, w.avatar_url, w.gender, w.country, w.province, w.city, w.mobile, w.open_id, w.union_id, w.created_at, w.updated_at, w.deleted_at, w.skey,
+            d.memorial_day_id, d.time, d.memorial_day_name, d.condition_id, d.created_time, d.updated_time,d.remark
+        from memorial_day_user as m
+                 left join wechat_user as w on m.open_id=w.open_id
+                 left join memorial_day as d on m.memorial_day_id=d.memorial_day_id
+        where m.memorial_day_id = #{memorialDayId}
+    </select>
+
+    <!--查询openId相对应的日期 非置顶的-->
+    <select id="queryByOpenId" resultMap="MemorialDayUserMap">
+        select
+            m.memorial_day_user_id, m.open_id, m.memorial_day_id,
+            w.id, w.nickname, w.avatar_url, w.gender, w.country, w.province, w.city, w.mobile, w.open_id, w.union_id, w.created_at, w.updated_at, w.deleted_at, w.skey,
+            d.memorial_day_id, d.time, d.memorial_day_name, d.condition_id, d.created_time, d.updated_time,d.remark
+        from memorial_day_user as m
+                 left join wechat_user as w on m.open_id=w.open_id
+                 left join memorial_day as d on m.memorial_day_id=d.memorial_day_id
+        where m.open_id = #{openId} and d.condition_id = 0
+    </select>
+
+    <!--查询openId相对应的日期 置顶的-->
+    <select id="queryByTop" resultMap="MemorialDayUserMap">
+        select
+            m.memorial_day_user_id, m.open_id, m.memorial_day_id,
+            w.id, w.nickname, w.avatar_url, w.gender, w.country, w.province, w.city, w.mobile, w.open_id, w.union_id, w.created_at, w.updated_at, w.deleted_at, w.skey,
+            d.memorial_day_id, d.time, d.memorial_day_name, d.condition_id, d.created_time, d.updated_time,d.remark
+        from memorial_day_user as m
+                 left join wechat_user as w on m.open_id=w.open_id
+                 left join memorial_day as d on m.memorial_day_id=d.memorial_day_id
+        where m.open_id = #{openId} and d.condition_id = 1
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAll" resultMap="MemorialDayUserMap">
+        select
+        m.memorial_day_user_id, m.open_id, m.memorial_day_id,
+        w.id, w.nickname, w.avatar_url, w.gender, w.country, w.province, w.city, w.mobile, w.open_id, w.union_id, w.created_at, w.updated_at, w.deleted_at, w.skey,
+        d.memorial_day_id, d.time, d.memorial_day_name, d.condition_id, d.created_time, d.updated_time,d.remark
+        from memorial_day_user as m
+            left join wechat_user as w on m.open_id=w.open_id
+            left join memorial_day as d on m.memorial_day_id=d.memorial_day_id
+        <where>
+            <if test="memorialDayUserId != null">
+                and m.memorial_day_user_id = #{memorialDayUserId}
+            </if>
+            <if test="openId != null and openId != ''">
+                and m.open_id = #{openId}
+            </if>
+            <if test="memorialDayId != null">
+                and m.memorial_day_id = #{memorialDayId}
+            </if>
+        </where>
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from memorial_day_user
+        <where>
+            <if test="memorialDayUserId != null">
+                and memorial_day_user_id = #{memorialDayUserId}
+            </if>
+            <if test="openId != null and openId != ''">
+                and open_id = #{openId}
+            </if>
+            <if test="memorialDayId != null">
+                and memorial_day_id = #{memorialDayId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="memorialDayUserId" useGeneratedKeys="true">
+        insert into memorial_day_user(open_id, memorial_day_id)
+        values (#{openId}, #{memorialDayId})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="memorialDayUserId" useGeneratedKeys="true">
+        insert into memorial_day_user(open_id, memorial_day_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.openId}, #{entity.memorialDayId})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="memorialDayUserId" useGeneratedKeys="true">
+        insert into memorial_day_user(open_id, memorial_day_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.openId}, #{entity.memorialDayId})
+        </foreach>
+        on duplicate key update
+        open_id = values(open_id),
+        memorial_day_id = values(memorial_day_id)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update memorial_day_user
+        <set>
+            <if test="openId != null and openId != ''">
+                open_id = #{openId},
+            </if>
+            <if test="memorialDayId != null">
+                memorial_day_id = #{memorialDayId},
+            </if>
+        </set>
+        where memorial_day_user_id = #{memorialDayUserId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from memorial_day_user where memorial_day_user_id = #{memorialDayUserId}
+    </delete>
+
+</mapper>
+

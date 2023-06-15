@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.scau.misp.todo.dao.TagDao">
+
+    <resultMap type="edu.scau.misp.todo.entity.Tag" id="TagMap">
+        <result property="tagId" column="tag_id" jdbcType="INTEGER"/>
+        <result property="tagName" column="tag_name" jdbcType="VARCHAR"/>
+        <result property="tagTime" column="tag_time" jdbcType="TIMESTAMP"/>
+        <result property="tagNo" column="tag_no" jdbcType="VARCHAR"/>
+        <result property="colorNo" column="color_no" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryByTagName" resultMap="TagMap">
+        select
+            tag_id, tag_name, tag_time, tag_no, color_no
+        from tag
+        where tag_name = #{tagName}
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TagMap">
+        select
+          tag_id, tag_name, tag_time, tag_no, color_no
+        from tag
+        where tag_id = #{tagId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAll" resultMap="TagMap">
+        select
+          tag_id, tag_name, tag_time, tag_no, color_no
+        from tag
+        <where>
+            <if test="tagId != null">
+                and tag_id = #{tagId}
+            </if>
+            <if test="tagName != null and tagName != ''">
+                and tag_name = #{tagName}
+            </if>
+            <if test="tagTime != null">
+                and tag_time = #{tagTime}
+            </if>
+            <if test="tagNo != null and tagNo != ''">
+                and tag_no = #{tagNo}
+            </if>
+            <if test="colorNo != null and colorNo != ''">
+                and color_no = #{colorNo}
+            </if>
+        </where>
+#         limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from tag
+        <where>
+            <if test="tagId != null">
+                and tag_id = #{tagId}
+            </if>
+            <if test="tagName != null and tagName != ''">
+                and tag_name = #{tagName}
+            </if>
+            <if test="tagTime != null">
+                and tag_time = #{tagTime}
+            </if>
+            <if test="tagNo != null and tagNo != ''">
+                and tag_no = #{tagNo}
+            </if>
+            <if test="colorNo != null and colorNo != ''">
+                and color_no = #{colorNo}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="tagId" useGeneratedKeys="true">
+        insert into tag(tag_name, tag_time, tag_no, color_no)
+        values (#{tagName}, #{tagTime}, #{tagNo}, #{colorNo})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="tagId" useGeneratedKeys="true">
+        insert into tag(tag_name, tag_time, tag_no, color_no)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.tagName}, #{entity.tagTime}, #{entity.tagNo}, #{entity.colorNo})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="tagId" useGeneratedKeys="true">
+        insert into tag(tag_name, tag_time, tag_no, color_no)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.tagName}, #{entity.tagTime}, #{entity.tagNo}, #{entity.colorNo})
+        </foreach>
+        on duplicate key update
+        tag_name = values(tag_name),
+        tag_time = values(tag_time),
+        tag_no = values(tag_no),
+        color_no = values(color_no)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update tag
+        <set>
+            <if test="tagName != null and tagName != ''">
+                tag_name = #{tagName},
+            </if>
+            <if test="tagTime != null">
+                tag_time = #{tagTime},
+            </if>
+            <if test="tagNo != null and tagNo != ''">
+                tag_no = #{tagNo},
+            </if>
+            <if test="colorNo != null and colorNo != ''">
+                color_no = #{colorNo},
+            </if>
+        </set>
+        where tag_id = #{tagId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from tag where tag_id = #{tagId}
+    </delete>
+
+</mapper>
+

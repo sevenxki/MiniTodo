@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.scau.misp.todo.dao.ListTagDao">
+
+    <resultMap type="edu.scau.misp.todo.entity.ListTag" id="ListTagMap">
+        <result property="listTagId" column="list_tag_id" jdbcType="INTEGER"/>
+        <result property="listId" column="list_id" jdbcType="INTEGER"/>
+        <result property="tagId" column="tag_id" jdbcType="INTEGER"/>
+        <association property="toDoList" javaType="edu.scau.misp.todo.dao.ListDao"
+                     column="list_id"
+                     select="edu.scau.misp.todo.dao.ListDao.queryById">
+        </association>
+        <association property="tag" javaType="edu.scau.misp.todo.dao.TagDao"
+                     column="tag_id"
+                     select="edu.scau.misp.todo.dao.TagDao.queryById">
+        </association>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryByListId" resultMap="ListTagMap">
+        select
+            lt.list_tag_id, lt.list_id, lt.tag_id
+#             ,l.list_id, l.list_title, l.list_content, l.list_status, l.open_id, l.list_time, l.list_priority,
+#             t.tag_id, t.tag_name,t.tag_time, t.tag_no
+        from list_tag as lt
+#                  left join list as l on lt.list_id = l.list_id
+#                  left join tag as t on lt.tag_id = t.tag_id
+        where lt.list_id = #{listId}
+    </select>
+
+    <!--查询tag-->
+    <select id="queryTags" resultMap="ListTagMap">
+        select
+        lt.list_tag_id, lt.list_id, lt.tag_id,
+#         l.list_id, l.list_title, l.list_content, l.list_status, l.open_id, l.list_time, l.list_priority,
+        t.tag_id, t.tag_name,t.tag_time, t.tag_no
+        from list_tag as lt
+#         left join list as l on lt.list_id = l.list_id
+        left join tag as t on lt.tag_id = t.tag_id
+        <where>
+            lt.list_id = #{listId}
+        </where>
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ListTagMap">
+        select
+            lt.list_tag_id, lt.list_id, lt.tag_id,
+            l.list_id, l.list_title, l.list_content, l.list_status, l.open_id, l.list_time, l.list_priority,
+            t.tag_id, t.tag_name,t.tag_time, t.tag_no
+        from list_tag as lt
+        left join list as l on lt.list_id = l.list_id
+        left join tag as t on lt.tag_id = t.tag_id
+        where lt.list_tag_id = #{listTagId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAll" resultMap="ListTagMap">
+        select
+        lt.list_tag_id, lt.list_id, lt.tag_id,
+        l.list_id, l.list_title, l.list_content, l.list_status, l.open_id, l.list_time, l.list_priority,
+        t.tag_id, t.tag_name,t.tag_time, t.tag_no
+        from list_tag as lt
+        left join list as l on lt.list_id = l.list_id
+        left join tag as t on lt.tag_id = t.tag_id
+        <where>
+            <if test="listTagId != null">
+                and lt.list_tag_id = #{listTagId}
+            </if>
+            <if test="listId != null">
+                and lt.list_id = #{listId}
+            </if>
+            <if test="tagId != null">
+                and lt.tag_id = #{tagId}
+            </if>
+        </where>
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from list_tag
+        <where>
+            <if test="listTagId != null">
+                and list_tag_id = #{listTagId}
+            </if>
+            <if test="listId != null">
+                and list_id = #{listId}
+            </if>
+            <if test="tagId != null">
+                and tag_id = #{tagId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="listTagId" useGeneratedKeys="true">
+        insert into list_tag(list_id, tag_id)
+        values (#{listId}, #{tagId})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="listTagId" useGeneratedKeys="true">
+        insert into list_tag(list_id, tag_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.listId}, #{entity.tagId})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="listTagId" useGeneratedKeys="true">
+        insert into list_tag(list_id, tag_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.listId}, #{entity.tagId})
+        </foreach>
+        on duplicate key update
+        list_id = values(list_id),
+        tag_id = values(tag_id)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update list_tag
+        <set>
+            <if test="listId != null">
+                list_id = #{listId},
+            </if>
+            <if test="tagId != null">
+                tag_id = #{tagId},
+            </if>
+        </set>
+        where list_tag_id = #{listTagId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from list_tag where list_tag_id = #{listTagId}
+    </delete>
+
+</mapper>
+

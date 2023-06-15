@@ -1,0 +1,86 @@
+{
+	"easycom": {
+		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
+	},
+	"pages": [{
+		"path": "pages/list/list",
+		"style": {
+			"navigationBarTitleText": "待办清单",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/calendar/calendar",
+		"style": {
+			"navigationBarTitleText": "日历",
+			"enablePullDownRefresh": false
+		}
+	}, {
+		"path": "pages/memory/memory",
+		"style": {
+			"navigationBarTitleText": "纪念日",
+			"enablePullDownRefresh": false
+		}
+	}, {
+		"path": "pages/login/login",
+		"style": {
+			"navigationBarTitleText": "登录",
+			"enablePullDownRefresh": false
+		}
+	}, {
+		"path": "pages/user/user",
+		"style": {
+			"navigationBarTitleText": "个人中心",
+			"enablePullDownRefresh": false
+		}
+	}, {
+		"path": "pages/user/userInfo",
+		"style": {
+			"navigationBarTitleText": "个人信息",
+			"enablePullDownRefresh": false
+		}
+	}, {
+		"path": "pages/user/userEdit",
+		"style": {
+			"navigationBarTitleText": "设置昵称",
+			"enablePullDownRefresh": false
+		}
+	}],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#2c2c2c",
+		"borderStyle": "white",
+		"backgroundColor": "#ffffff",
+		"list": [{
+				"pagePath": "pages/list/list",
+				"iconPath": "static/tabbar/list.png",
+				"selectedIconPath": "static/tabbar/list1.png",
+				"text": "待办清单"
+			},
+			{
+				"pagePath": "pages/calendar/calendar",
+				"iconPath": "static/tabbar/calendar.png",
+				"selectedIconPath": "static/tabbar/calendar1.png",
+				"text": "日历"
+			},
+			{
+				"pagePath": "pages/memory/memory",
+				"iconPath": "static/tabbar/memory.png",
+				"selectedIconPath": "static/tabbar/memory1.png",
+				"text": "纪念日"
+			},
+			{
+				"pagePath": "pages/user/user",
+				"iconPath": "static/tabbar/user.png",
+				"selectedIconPath": "static/tabbar/user1.png",
+				"text": "个人中心"
+			}
+		]
+	}
+}
